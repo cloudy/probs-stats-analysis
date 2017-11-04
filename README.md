@@ -1,4 +1,4 @@
-#IE 3301 Semester Project
+# IE 3301 Semester Project
 
 Performing descriptive analysis and goodness of fit of two sets of data 
 
