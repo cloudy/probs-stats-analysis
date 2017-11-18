@@ -20,6 +20,10 @@ if len(sys.argv) > 1:
 
 def main():
     sample_vals = np.genfromtxt(DATA_FILE, delimiter=',')
+    
+    print(min(sample_vals))
+    print(max(sample_vals))
+    
     print(sample_vals)
     
     sample_mean = np.mean(sample_vals)
@@ -42,8 +46,14 @@ def main():
     fig = plt.figure()
     ax = plt.subplot(111)
     ax.boxplot(sample_vals, 0, 'kp', 0)
+    fig.savefig('boxplot.png')
+    fig.clf()
     
-    fig.savefig('plot.png')
+
+    fig = plt.figure()
+    ax = plt.subplot(111)
+    ax.hist(sample_vals)
+    fig.savefig('histogram.png')
 
 
 
