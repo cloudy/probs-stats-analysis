@@ -10,7 +10,7 @@ import sys
 import matplotlib.pyplot as plt
 
 
-DATA_FILE = "../set_one/resistor_vals.csv"  # Set to default list
+DATA_FILE = "../set_one/resistor_vals_offset.csv"  # Set to default list
 QUARTILES = [25, 50, 75]
 
 if len(sys.argv) > 1:
