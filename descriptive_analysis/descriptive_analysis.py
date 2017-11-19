@@ -44,7 +44,7 @@ def main():
     fig = plt.figure()
     ax = plt.subplot(111)
     ax.boxplot(sample_vals, 0, 'kp', 0)
-    fig.savefig(OUTPUT_FILE + 'boxplot.png')
+    fig.savefig(OUTPUT_FILE + 'boxplot.png', bbox_inches='tight')
     fig.clf()
     
     num_bins = 10
@@ -57,7 +57,7 @@ def main():
     fig = plt.figure()
     ax = plt.subplot(111)
     ax.hist(sample_vals, bins=num_bins)
-    fig.savefig(OUTPUT_FILE + 'histogram.png')
+    fig.savefig(OUTPUT_FILE + 'histogram.png', bbox_inches='tight')
     fig.clf()
 
 
