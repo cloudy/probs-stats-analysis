@@ -8,7 +8,7 @@
 import numpy as np
 import sys
 import matplotlib.pyplot as plt
-
+import tabulate
 
 DATA_FILE = "../set_one/resistor_vals_offset.csv"  # Set to default list
 QUARTILES = [25, 50, 75]
@@ -39,7 +39,9 @@ def main():
         sample_quarts.append(np.percentile(sample_vals, quart))
 
     print("Quartiles: ", *sample_quarts, sep=', ')
-    
+   
+    generateTable(sample_vals)
+
     # Construct box-and-whisker plot, a.k.a. boxplot
     fig = plt.figure()
     ax = plt.subplot(111)
@@ -61,6 +63,17 @@ def main():
     fig.clf()
 
 
+def generateTable(data):
+
+    data_c = data.reshape(10, int(len(data)/10))
+    print(data_c.shape)
+
+    gen_table = tabulate.tabulate(data_c, tablefmt="latex")
+    print(gen_table)
+
+    outfile = open(OUTPUT_FILE + 'latex_gen.txt', 'w')
+    outfile.write("\n\n\n")
+    outfile.write("%s\n" % gen_table)   
 
 
 if __name__ == "__main__":

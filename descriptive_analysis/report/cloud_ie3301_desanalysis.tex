@@ -19,7 +19,8 @@
 \usepackage{listings}
 \usepackage{color}
 \definecolor{lightgray}{gray}{0.9}
-
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
 \lstset{
     showstringspaces=false,
     basicstyle=\ttfamily,
@@ -36,41 +37,38 @@
 \setcounter{tocdepth}{5}
 \setcounter{secnumdepth}{5}
 
-%-------------------------------------------------------------------------------
 % HEADER & FOOTER
-%-------------------------------------------------------------------------------
 \pagestyle{fancy}
 \fancyhf{}
 \setlength\headheight{15pt}
 \fancyhead[L]{Student ID: 1000921236}
 \fancyhead[R]{University of Texas at Arlington}
 \fancyfoot[R]{Page \thepage\ of \pageref{LastPage}}
-%-------------------------------------------------------------------------------
-% TITLE PAGE
-%-------------------------------------------------------------------------------
 
+
+% TITLE PAGE
 \begin{document}
 
 \title{ \normalsize \textsc{IE 3301 - 004 \\ Engineering Probability}
-		\\ [2.0cm]
-		\HRule{0.5pt} \\
-		\LARGE \textbf{\uppercase{Real-World Data: Analysis}} \\
-        \normalsize \textit{Part I}  
-		\HRule{2pt} \\ [0.5cm]
-		\normalsize \today \vspace*{5\baselineskip}}
+        \\ [2.0cm]
+        \HRule{0.5pt} \\
+        \LARGE \textbf{\uppercase{Real-World Data: Analysis}} \\
+        \normalsize \textit{Part I}
+        \HRule{2pt} \\ [0.5cm]
+        \normalsize \today \vspace*{5\baselineskip}}
 
 \date{}
 
 \author{
-        Joe Cloud \\
-		Student ID: 1000921236 \\
+    Joe Cloud \\
+        Student ID: 1000921236 \\
         University of Texas at Arlington \\[1in]
-        \textit{I, Joe Cloud, did not give or receive any assistance on }\\ 
+        \textit{I, Joe Cloud, did not give or receive any assistance on }\\
         \textit{this project, and the report submitted is wholly my own.}}
-    
 
 
-\maketitle
+
+    \maketitle
 \tableofcontents
 \newpage
 
@@ -79,28 +77,21 @@
 \sectionfont{\scshape}
 %-------------------------------------------------------------------------------
 
-%-------------------------------------------------------------------------------
 % BODY
-%-------------------------------------------------------------------------------
-
 \section*{Introduction}
 \addcontentsline{toc}{section}{Introduction}
 
-The aim of this project, as stated in the project brief is to analyze real-world 
-data using techniques covered in the course. For this portion of the project, 
-this includes data collection of two independent data sets: one is a
-sample of a random variable that is suspected to be normally distributed, while
-the second is a measure of the time interval between events; then summarizing each
-dataset statistically. \\ For my project, I chose to collect a set of resistor values
-from a batch of 100 1k$\Omega \pm 5\%$ resistors, for my first set. For the second set,
-I compiled login logs for users from a compute cluster and ran preprocessing scripts. 
-The result was a dataset of the login time (in seconds) interval between user logins. 
-
-\section*{Motivation}
-\addcontentsline{toc}{section}{Motivation}
-
-
-
+The aim of this project, as stated in the project brief is to analyze real-world
+data using techniques covered in the introductory Engineering Probability course. 
+For this portion of the project, data collection was performed on two independent 
+data sets: one is a sample of a continuous random variable that is suspected to be 
+normally distributed, while the second is a measure of the time interval between log events; 
+then each dataset is statistically summarized. \\ 
+For my project, I chose to collect a set of resistor values from a batch of 100 
+1k$\Omega \pm 5\%$ resistors ($k\Omega$ is the measurement of resistance, in units of Kilo Ohms), 
+for my first set. For the second set, I compiled login logs for users from a compute cluster and 
+ran preprocessing scripts to extrace the login intervals.
+The result was a dataset of 120 events containing the login interval (in seconds) between user logins.
 
 
 \section*{Data}
@@ -110,39 +101,39 @@ The result was a dataset of the login time (in seconds) interval between user lo
 \addcontentsline{toc}{subsection}{Set One}
 
 Data collection began with the process of measuring the resistance of each resistor
-and recording the value. The measurements were conducted with a calibrated 4.5 digit
-digital multimeter (see appendix 4 for equipment information), each measurement was entered
-into a spreadsheet and later outputed as CSV file for further processing by data analysis scripts. \\
-Before data analysis was performed, $0.33\Omega$ was subtracted from each value, this done to account
+and recording their values. The measurements were conducted with a calibrated 4.5 digit
+digital multimeter (see Appendix V for equipment information), each measurement was entered
+into a spreadsheet and later outputed to a CSV file for further processing by data analysis scripts. \\
+Before data analysis was performed, $0.33\Omega$ was subtracted from each value, this is done to account
 for the resistance added by the multimeter probes. Although this minor offset does not impact the
-distribution of measurements for the purposes of the project, it does provide us with truer results. 
-The values are offset by approximately 0.03\%. 
+distribution of measurements for the purposes of the project, it does provide us with results that more 
+accurately represent the true values. The values are offset by approximately 0.03\%.
 
-In an ideal world, the resistors would measure identically to the 1k$\Omega$ label. 
-In reality, the cost of highly accurate manufacturing processes is expensive, 
-tolerances guarantee a range of possible [random] values. This dataset was created to explore 
-the distribution of these values, within the specified, yet continuous
-range.  
+In an ideal world, the resistors would measure identically to the 1k$\Omega$ label.
+In reality, the cost to refine manufacturing to attain such accuracy is expensive.
+Tolerances guarantee a range of possible [random] values which are acceptable for most 
+electronics. This dataset was created to explore the distribution of these values.
 
 \subsection*{Set Two}
 \addcontentsline{toc}{subsection}{Set Two}
 
-The data collection for Set Two revolved around login access to a compute cluster 
-and may be difficult to produce outside the context I outlined above. Though, it is
-possible for the reader to perform similar analysis with data from their own machine using 
-their own login log. On a Unix-like operating system this can be performed with the use of the 
-\inlinecode{Bash}{last} command. One of the benefits of computer-triggered collection is that it 
-is much less susceptable to timing errors as opposed to that of a 'human polling' based approach. \\
-I included the source code necessary to collect the data in appendix REPLACEME. All source code written 
-for this part of the project is included.
+The data collection for Set Two revolved around login access to a compute cluster
+and will be difficult to replicate without access to a system with comprehensive logging and login activity.
+Though, it is possible for the reader to perform similar analysis with data from a personal machine's logging datag. 
+On a Unix-like operating system this can be performed with the use of the \inlinecode{Bash}{last} command. 
+One of the benefits of computer-triggered collection is that it is much less susceptible to timing errors 
+as opposed to that of a 'human polling' based approach. \\ I included the source code necessary to collect 
+the data in Appendix IV.C. All source code written for this part of the project is included in the appendix.
 
 \newpage
 
+% Data analysis
 \section*{Descriptive Analysis}
 \addcontentsline{toc}{section}{Descriptive Analysis}
 
 This section details the results of analysis performed on both datasets one and two.
-
+To analyze the data, python scripts were written to perform the calculations and output the desired
+plots for each dataset. The scripts are included as part of the Code section of Appendix IV.A.
 
 \subsection*{Set One}
 \addcontentsline{toc}{subsection}{Set One}
@@ -150,34 +141,429 @@ This section details the results of analysis performed on both datasets one and 
 \begin{wrapfigure}{r}{0.50\textwidth}
     \centering
     \includegraphics[width=0.50\textwidth]{results/resistor_boxplot}
+    \caption{Set One: Box-and-whisker plot}
 \end{wrapfigure}
 
-\lipsum[1]
+The first step in analysis for Set One was calculating the mean $\bar{X_1}$, which is  $0.98349$ $k\Omega$,
+between minimum value $0.97987 k\Omega$ and maximum value $0.98827 k\Omega$. The next step was calculating
+the standard deviation, $\sigma_1$. This was done using \inlinecode{Python}{numpy} as opposed
+to doing it by hand with $\sigma_1 = \sqrt{\frac{1}{N-1} \sum_{i=1}^N (X_i - \bar{X_1})^2}$.
+The result for $\sigma_1$ was $0.001739$, which would indicate that spread from the mean is fairly low,
+considering the significance of the value.
+The last calculation necessary for box-and-whisker plot was the quartiles,
+in which $Q1 = 0.98257 k\Omega, Q2 = 0.98659 k\Omega, Q3 = 0.98467 k\Omega$.
 
 
-\begin{wrapfigure}{l}{0.50\textwidth}
+The box-and-whisker plot is a helpful method of visualizing spread within a dataset.
+The vertical line segments ends on either side of the box represent the minimum and maximum
+values within the sample space, while the dot to the right represents outliers within the data.
+The box itself is useful for showing the quartiles (first being the left edge of the box, with
+third being the right).
+In this set, the data appears to be dispersed somewhat evenly. The whiskers are similar in length,
+with only a slight bias towards the left. This would indicate that the resistant of the 1k$\Omega$
+hold an average lower than the median resistance. (x-axis is resistance in k$\Omega$)
+
+\begin{wrapfigure}[14]{r}{0.50\textwidth}
     \centering
     \includegraphics[width=0.50\textwidth]{results/resistor_histogram}
+    \caption{Set One: Histogram}
 \end{wrapfigure}
 
-\lipsum[2-3]
 
-\newpage
+
+The frequency table (Appendix III.A) was created first by determining a bin size. The range of the data was
+divided into 10 equal parts. Each bin would contain the tally of the values within
+a particular slice. For the resistor values, which is a continuous random variable that we
+suspect to be normally distributed- it is promising to see that the tallies peak towards the center of the table
+where the center-most values are located. The right-most extreme values do appear to decrease quite significantly while
+the lower end appears to contain more tallies than we'd expect for a proper normal distribution.
+
+The histogram represents the distribution of the resistive values across 10 bins.
+Where the y-axis is the number of values tallied within the slice, and x-axis is the measured
+resistance in units of k$\Omega$.
+Based on the histogram and previous data analysis. The sample of resistors do not follow a
+normal distribution due to a lack of symmetry.
+
+
 
 \subsection*{Set Two}
 \addcontentsline{toc}{subsection}{Set Two}
 
-\lipsum[4]
+The first step in analysis for Set Two was calculating the mean $\bar{X_2}$, which is  $8445.05$ seconds (s),
+between minimum value $1.0$s (restricted by measurement resolution) and maximum value $83749$s. The next step was calculating
+the standard deviation, $\sigma_2$, which was $15392.12$s. This indicates that spread from the mean is high.
+The last calculation necessary for box-and-whisker plot was the quartiles,
+in which $Q1 = 251.75s, Q2 = 1865.0s, Q3 = 8052.25s$.
+
+\begin{wrapfigure}{r}{0.50\textwidth}
+    \centering
+    \includegraphics[width=0.50\textwidth]{results/logininterval_boxplot}
+    \caption{Set Two: Box-and-whisker plot}
+\end{wrapfigure}
+
+In this set, the data appears to be heavily right skewed, with the majority of the values located on the lower
+end of the scale (in seconds), with a few large outliers to the right. This foreshadows an interesting frequency
+distribution and histogram. Since this interval data is extracted from timestamps, we suspect the data to follow an
+exponential distribution. It is based on a continuous random variable (through the time stamp), but the values are
+discretized due to the limits of logging precision.
+
+\begin{wrapfigure}[11]{r}{0.50\textwidth}
+    \centering
+    \includegraphics[width=0.50\textwidth]{results/logininterval_histogram}
+    \caption{Set Two: Histogram}
+\end{wrapfigure}
+
+Like for Set One, the frequency table (Appendix III.B) was created first by determining a bin size. The range of the data was
+divided into 10 equal parts as well. Each bin would contain the tally of the values within
+a particular slice.
+When tabled, the values for the login intervals show that the vast majority
+of tallies were entered into the first slice, and a significant decrease in each successive step. The second
+through last bin combined makes up less than a third of the tallies of the first bin.
+
+
+The histogram to the right represents the distribution of the login interval values across 10 bins.
+Where the y-axis is the number of values tallied within the slice, and x-axis is time between successive logins
+in seconds.
+Based on the histogram and previous data analysis. I conclude that the data follows an exponential distribution, as
+interval increase there is an exponential decrease in the values recorded, there are some outliers to the extreme but
+I think with more samples the overall distribution would continue to show strong resemblance to that of the standard
+exponential distribution.
+
+
+\newpage
+\section*{Appendix}
+\addcontentsline{toc}{section}{Appendix}
+
+\subsection*{I - Dataset: One}
+\addcontentsline{toc}{subsection}{I - Dataset: One}
+
+\begin{tabular}{rrrrrrrrrr}
+    \hline
+     0.98227 & 0.98467 & 0.98377 & 0.98277 & 0.97987 & 0.98467 & 0.98437 & 0.98337 & 0.98317 & 0.98507 \\
+      0.98027 & 0.98077 & 0.98487 & 0.98037 & 0.98457 & 0.98237 & 0.98387 & 0.98367 & 0.98257 & 0.98487 \\
+       0.98377 & 0.98217 & 0.98017 & 0.98487 & 0.98447 & 0.98737 & 0.98317 & 0.98287 & 0.98477 & 0.98417 \\
+        0.98207 & 0.98387 & 0.98757 & 0.98427 & 0.98477 & 0.98257 & 0.98537 & 0.98517 & 0.98037 & 0.98007 \\
+         0.98527 & 0.98617 & 0.98397 & 0.98127 & 0.98357 & 0.98367 & 0.98387 & 0.98097 & 0.98357 & 0.98077 \\
+          0.98287 & 0.98087 & 0.98627 & 0.98107 & 0.98377 & 0.98327 & 0.98537 & 0.98357 & 0.98577 & 0.98547 \\
+           0.98247 & 0.98507 & 0.98337 & 0.98367 & 0.98527 & 0.98347 & 0.98827 & 0.98207 & 0.98337 & 0.98297 \\
+            0.98297 & 0.98097 & 0.98387 & 0.98287 & 0.98467 & 0.98327 & 0.98157 & 0.98037 & 0.98487 & 0.98117 \\
+             0.98547 & 0.98397 & 0.98437 & 0.98337 & 0.98317 & 0.98287 & 0.98507 & 0.98397 & 0.98287 & 0.98327 \\
+              0.98167 & 0.98197 & 0.98317 & 0.98547 & 0.98377 & 0.98637 & 0.98057 & 0.98277 & 0.98547 & 0.98447 \\
+              \hline
+\end{tabular}
+
+% insert table of resistor values here
+
+\subsection*{II - Dataset: Two}
+\addcontentsline{toc}{subsection}{II - Dataset: Two}
+% insert table of login time values
+
+\begin{tabular}{rrrrrrrrrrrr}
+    \hline
+    1796 & 67183 &  7901 & 13437 &  6645 &   916 & 41159 &  8269 &  2684 & 38237 & 3263 & 47470 \\
+    6397 & 24371 & 28258 & 12257 &  1348 & 18621 &  6675 &  2691 & 25385 &    86 &   10 & 18647 \\
+    68 &    31 &    19 &  2202 &   124 &   508 &     3 & 72894 &  5630 & 15758 & 7980 &   431 \\
+    3918 &  3541 & 11982 & 35755 &  6654 &  2526 & 15853 &  3533 &   507 &   367 & 1404 &  2306 \\
+    2237 & 23714 &   887 &   141 &  5493 &   520 & 83749 &  3516 & 29573 & 27200 &    2 & 32295 \\
+    2197 &  3579 &  4556 &   166 &   864 &    56 &   113 &    98 &     5 &  1645 &    3 &  7368 \\
+    1846 &  2136 &  2214 &   213 &   535 &   632 &  1440 &   268 &   243 &   303 & 1182 & 54091 \\
+    1 & 19565 &   690 &   243 &    83 &   135 &    84 &  3346 &  6641 &  1373 &  457 &   393 \\
+    19 &   187 &   376 &  9292 &  1214 &   589 &   567 &  1240 &  1884 &   207 &  423 &     5 \\
+    905 & 44505 &    71 & 11948 & 10404 &  2151 &  2413 &   227 & 10287 &   196 &   25 &  8480 \\
+    \hline
+\end{tabular}
+
+
+\subsection*{III - Tables}
+\addcontentsline{toc}{subsection}{III - Tables}
+
+\subsubsection*{A - Set One: Frequency table}
+\addcontentsline{toc}{subsubsection}{A - Set One: Frequency table}
+
+\begin{table}[h!]
+    \centering
+
+    \begin{tabular}{ | l | c | }
+        \hline
+        Value Range & Count \\
+        \hline
+        $0.97987 \leq X < 0.98071$ & 8  \\
+        $0.98071 \leq X < 0.98155$ & 8  \\
+        $0.98155 \leq X < 0.98239$ & 8  \\
+        $0.98239 \leq X < 0.98407$ & 16 \\
+        $0.98407 \leq X < 0.98491$ & 25 \\
+        $0.98491 \leq X < 0.98575$ & 17 \\
+        $0.98575 \leq X < 0.98659$ & 12 \\
+        $0.98659 \leq X < 0.98743$ & 4  \\
+        $0.98473 \leq X < 0.98827$ & 1  \\
+        $0.98827 \leq X$           & 2  \\
+        \hline
+    \end{tabular}
+    \caption{Set One: Frequency table}
+\end{table}
+
+
+
+\subsubsection*{B - Set Two: Frequency table}
+\addcontentsline{toc}{subsubsection}{B - Set Two: Frequency table}
+
+\begin{table}[h!]
+    \centering
+
+    \begin{tabular}{ | l | c | }
+        \hline
+        Value Range & Count \\
+        \hline
+        $1.00000 \leq X < 8375.00$ & 91 \\
+        $8375.00 \leq X < 16750.0$ & 10 \\
+        $16750.0 \leq X < 25125.4$ & 5  \\
+        $25125.4 \leq X < 33500.2$ & 5  \\
+        $33500.2 \leq X < 41875.0$ & 3  \\
+        $41875.0 \leq X < 50249.8$ & 2  \\
+        $50249.8 \leq X < 58624.6$ & 1  \\
+        $58624.6 \leq X < 66999.4$ & 0  \\
+        $66999.4 \leq X < 75374.2$ & 2  \\
+        $75374.2 \leq X$           & 1  \\
+        \hline
+    \end{tabular}
+    \caption{Set Two: Frequency table}
+\end{table}
+
+
+\subsection*{IV - Code}
+\addcontentsline{toc}{subsection}{IV - Code}
+
+
+\subsubsection*{A - Descriptive Analysis}
+\addcontentsline{toc}{subsubsection}{A - Descriptive Analysis}
+
+
+\lstset{frame=tb,
+  language=Python,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+
+\begin{lstlisting}
+#AUTHOR: Joe Cloud
+#PURPOSE: Perform simple descriptive analysis for Probability & Statistics for Engineers, project
+#UTA FALL 2017
+
+
+import numpy as np
+import sys
+import matplotlib.pyplot as plt
+import tabulate
+
+DATA_FILE = "../set_one/resistor_vals_offset.csv"  # Set to default list
+QUARTILES = [25, 50, 75]
+
+if len(sys.argv) > 1:
+    DATA_FILE = sys.argv[1]
+
+OUTPUT_FILE = "results/" + DATA_FILE.split('/')[-1].split('vals')[0]
+
+
+def main():
+
+    sample_vals = np.genfromtxt(DATA_FILE, delimiter=',')
+    print(sample_vals)
+
+    print("Min value is: %f" % min(sample_vals))
+    print("Max value is: %f" % max(sample_vals))
+
+    sample_mean = np.mean(sample_vals)
+    print("Mean value is: %f" % sample_mean)
+
+    sample_std = np.std(sample_vals)
+    print("STD value is: %f" % sample_std)
+
+    # Calculate quartiles
+    sample_quarts = []
+    for quart in QUARTILES:
+        sample_quarts.append(np.percentile(sample_vals, quart))
+
+    print("Quartiles: ", *sample_quarts, sep=', ')
+
+    generateTable(sample_vals)
+
+    # Construct box-and-whisker plot, a.k.a. boxplot
+    fig = plt.figure()
+    ax = plt.subplot(111)
+    ax.boxplot(sample_vals, 0, 'kp', 0)
+    fig.savefig(OUTPUT_FILE + 'boxplot.png', bbox_inches='tight')
+    fig.clf()
+
+    num_bins = 10
+
+    # Frequency table
+    frequency_table = np.histogram(sample_vals, bins=num_bins)
+    print(frequency_table)
+
+    # Histogram data
+    fig = plt.figure()
+    ax = plt.subplot(111)
+    ax.hist(sample_vals, bins=num_bins)
+    fig.savefig(OUTPUT_FILE + 'histogram.png', bbox_inches='tight')
+    fig.clf()
+
+
+def generateTable(data):
+
+    data_c = data.reshape(10, int(len(data)/10))
+    print(data_c.shape)
+
+    gen_table = tabulate.tabulate(data_c, tablefmt="latex")
+    print(gen_table)
+
+    outfile = open(OUTPUT_FILE + 'latex_gen.txt', 'w')
+    outfile.write("\n\n\n")
+    outfile.write("%s\n" % gen_table)
+
+
+if __name__ == "__main__":
+    main()
+\end{lstlisting}
+
+
+
+\subsubsection*{B - Data Processing: Set One}
+\addcontentsline{toc}{subsubsection}{B - Data Processing: Set One}
+
+\begin{lstlisting}
+
+#!/usr/bin/env python3
+
+# This simply offsets each value by 0.33
+
+FILE_NAME="resistor_vals.csv"
+
+def main():
+
+    f = open(FILE_NAME, 'r')
+
+    data = f.readlines()
+
+    print(data)
+
+    data_output = []
+    for val in data:
+        data_output.append(float(val) - 0.00033)
+
+    outfile = open("resistor_vals_offset.csv", 'w')
+
+    for val in data_output:
+        outfile.write("%s\n" % val)
+
+
+if __name__ == "__main__":
+    main()
+
+\end{lstlisting}
+
+\subsubsection*{C - Data Processing: Set Two}
+\addcontentsline{toc}{subsubsection}{C - Data Processing: Set Two}
+
+\begin{lstlisting}
+
+#!/usr/bin/env python3
+
+# This performs necessary pre-processing for raw data from 'last' command
+
+FILE_NAME = "stripped_batch_three.log"
+
+def main():
+
+    f = open(FILE_NAME, 'r')
+    data = f.readlines()
+    data_conved = convToSeconds(data)
+    print(data_conved)
+    data_interval = calcInterval(data_conved)
+    print(data_interval)
+
+    outfile = open("logininterval_vals.txt", 'w')
+
+    for val in data_interval:
+        outfile.write("%s\n" % val)
+
+
+def convToSeconds(data):
+
+    in_seconds = []
+
+    for login in data:
+        # Takes value in format HH:MM:SS and tokenizes, adds up each delimited element
+        # w/ respective multiplier.
+        temp_tok = login.split(':')
+
+        in_seconds.append(int(temp_tok[2])+int(temp_tok[1])*60+int(temp_tok[0])*3600)
+
+    return in_seconds
+
+
+def calcInterval(data):
+    in_intervals = []
+    # Go through and get the difference between T1 and TO to determine login intervals
+    # Must abs values bc for ex, TO may be 23:34:46 and T1 00:12:49 where the difference would be negative
+    for i in range(0, len(data) - 1):
+        in_intervals.append(abs(data[i] - data[i+1]))
+
+    return in_intervals
+
+
+if __name__ == "__main__":
+    main()
+
+
+\end{lstlisting}
+
+
+
+
+\lstset{language=Bash}
+
+\begin{lstlisting}
+
+#!/usr/bin/env bash
+
+last -Fwx > last_batch_$1.log
+cat last_batch_$1 | awk '{ print $7 }' > stripped_batch_$1.txt
+
+\end{lstlisting}
+
+
+
+\subsection*{V - Equipment Used}
+\addcontentsline{toc}{subsection}{V - Equipment Used}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\textwidth]{process/dmm_resistors}
+    \caption{Set One: Fluke 289 w/ resistors}
+\end{figure}
+
+
+
 
 \begin{comment}
     Report requirements:
     - Define all notation
     - Include descriptions of tables, figures
-    - Take writing to UTA Writing Center
-    
+
     Includes:
     - Cover page
-    - - Complete, includes nec. info 
+    - - Complete, includes nec. info
     - Data section
     - - Describe data collection process
     - - - Enough info for someone to replicate process
@@ -191,18 +577,18 @@ This section details the results of analysis performed on both datasets one and 
     - - Tables of raw data for each set
     - - Code
     - - Equipment used
-    
+
     Structure:
     - cover
     - table of contents
     - body
     - - motivation
-    - - the data 
+    - - the data
     - - collection process
     - - descriptive statistics
     - - methodologies
     - - - tech used (reference appendece for code/tech used)
-    - - results 
+    - - results
     - - - figs
     - - answer questions
     - appendices
@@ -216,79 +602,14 @@ This section details the results of analysis performed on both datasets one and 
 
 
 
-%-------------------------------------------------------------------------------
 % REFERENCES
-%-------------------------------------------------------------------------------
 \newpage
 \section*{References}
 \addcontentsline{toc}{section}{References}
 
-Weiss, S., 1989. Tissue Destruction by Neutrophils, \textit{New England Journal of Medicine,} 320, pp. 365-376.
+Walpole, R.E., 2016. \textit{Probability and Statistics for Engineers and Scientists} Prentice Hall.
 \newline
 \newline
 
 
 \end{document}
-
-%-------------------------------------------------------------------------------
-% SNIPPETS
-%-------------------------------------------------------------------------------
-
-%\begin{figure}[!ht]
-%	\centering
-%	\includegraphics[width=0.8\textwidth]{file_name}
-%	\caption{}
-%	\centering
-%	\label{label:file_name}
-%\end{figure}
-
-%\begin{figure}[!ht]
-%	\centering
-%	\includegraphics[width=0.8\textwidth]{graph}
-%	\caption{Blood pressure ranges and associated level of hypertension (American Heart Association, 2013).}
-%	\centering
-%	\label{label:graph}
-%\end{figure}
-
-%\begin{wrapfigure}{r}{0.30\textwidth}
-%	\vspace{-40pt}
-%	\begin{center}
-%		\includegraphics[width=0.29\textwidth]{file_name}
-%	\end{center}
-%	\vspace{-20pt}
-%	\caption{}
-%	\label{label:file_name}
-%\end{wrapfigure}
-
-%\begin{wrapfigure}{r}{0.45\textwidth}
-%	\begin{center}
-%		\includegraphics[width=0.29\textwidth]{manometer}
-%	\end{center}
-%	\caption{Aneroid sphygmomanometer with stethoscope (Medicalexpo, 2012).}
-%	\label{label:manometer}
-%\end{wrapfigure}
-
-%\begin{table}[!ht]\footnotesize
-%	\centering
-%	\begin{tabular}{cccccc}
-%	\toprule
-%	\multicolumn{2}{c} {Pearson's correlation test} & \multicolumn{4}{c} {Independent t-test} \\
-%	\midrule
-%	\multicolumn{2}{c} {Gender} & \multicolumn{2}{c} {Activity level} & \multicolumn{2}{c} {Gender} \\
-%	\midrule
-%	Males & Females & 1st level & 6th level & Males & Females \\
-%	\midrule
-%	\multicolumn{2}{c} {BMI vs. SP} & \multicolumn{2}{c} {Systolic pressure} & \multicolumn{2}{c} {Systolic Pressure} \\
-%	\multicolumn{2}{c} {BMI vs. DP} & \multicolumn{2}{c} {Diastolic pressure} & \multicolumn{2}{c} {Diastolic pressure} \\
-%	\multicolumn{2}{c} {BMI vs. MAP} & \multicolumn{2}{c} {MAP} & \multicolumn{2}{c} {MAP} \\
-%	\multicolumn{2}{c} {W:H ratio vs. SP} & \multicolumn{2}{c} {BMI} & \multicolumn{2}{c} {BMI} \\
-%	\multicolumn{2}{c} {W:H ratio vs. DP} & \multicolumn{2}{c} {W:H ratio} & \multicolumn{2}{c} {W:H ratio} \\
-%	\multicolumn{2}{c} {W:H ratio vs. MAP} & \multicolumn{2}{c} {\% Body fat} & \multicolumn{2}{c} {\% Body fat} \\
-%	\multicolumn{2}{c} {} & \multicolumn{2}{c} {Height} & \multicolumn{2}{c} {Height} \\
-%	\multicolumn{2}{c} {} & \multicolumn{2}{c} {Weight} & \multicolumn{2}{c} {Weight} \\
-%	\multicolumn{2}{c} {} & \multicolumn{2}{c} {Heart rate} & \multicolumn{2}{c} {Heart rate} \\
-%	\bottomrule
-%	\end{tabular}
-%	\caption{Parameters that were analysed and related statistical test performed for current study. BMI - body mass index; SP - systolic pressure; DP - diastolic pressure; MAP - mean arterial pressure; W:H ratio - waist to hip ratio.}
-%	\label{label:tests}
-%\end{table}
