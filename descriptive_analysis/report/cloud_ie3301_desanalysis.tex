@@ -86,10 +86,10 @@ data using techniques covered in the introductory Engineering Probability course
 For this portion of the project, data collection was performed on two independent 
 data sets: one is a sample of a continuous random variable that is suspected to be 
 normally distributed, while the second is a measure of the time interval between log events; 
-then each dataset is statistically summarized. \\ 
+then each dataset is statistically summarized.  
 For my project, I chose to collect a set of resistor values from a batch of 100 
 1k$\Omega \pm 5\%$ resistors ($k\Omega$ is the measurement of resistance, in units of Kilo Ohms), 
-for my first set. For the second set, I compiled login logs for users from a compute cluster and 
+for the first set. For the second set, I compiled login logs for users from a compute cluster and 
 ran preprocessing scripts to extrace the login intervals.
 The result was a dataset of 120 events containing the login interval (in seconds) between user logins.
 
@@ -101,29 +101,36 @@ The result was a dataset of 120 events containing the login interval (in seconds
 \addcontentsline{toc}{subsection}{Set One}
 
 Data collection began with the process of measuring the resistance of each resistor
-and recording their values. The measurements were conducted with a calibrated 4.5 digit
-digital multimeter (see Appendix V for equipment information), each measurement was entered
+and recording its value. The measurements were conducted with a calibrated 4.5 digit
+digital multimeter (see Appendix V for equipment information). To perform this measurement,
+a digital multimeter was placed in 'resistance' measuring mode, and with probes attached to the correct ports, 
+each resistor was attached to the end of the probe on either side of the filament. Once attached the resistive value 
+would be flashed on the display of the digital multimeter. Each measurement was entered
 into a spreadsheet and later outputed to a CSV file for further processing by data analysis scripts. \\
 Before data analysis was performed, $0.33\Omega$ was subtracted from each value, this is done to account
-for the resistance added by the multimeter probes. Although this minor offset does not impact the
-distribution of measurements for the purposes of the project, it does provide us with results that more 
+for the resistance added by the multimeter probes. Although this minor offset did not impact the
+distribution of measurements for the purposes of the project, it did provide us with results that more 
 accurately represent the true values. The values are offset by approximately 0.03\%.
 
 In an ideal world, the resistors would measure identically to the 1k$\Omega$ label.
-In reality, the cost to refine manufacturing to attain such accuracy is expensive.
+In reality, the cost to refine manufacturing to attain such level of accuracy is expensive.
 Tolerances guarantee a range of possible [random] values which are acceptable for most 
 electronics. This dataset was created to explore the distribution of these values.
 
 \subsection*{Set Two}
 \addcontentsline{toc}{subsection}{Set Two}
-
+\par
 The data collection for Set Two revolved around login access to a compute cluster
 and will be difficult to replicate without access to a system with comprehensive logging and login activity.
-Though, it is possible for the reader to perform similar analysis with data from a personal machine's logging datag. 
+Though, it is possible for the reader to perform similar analysis with data from a personal machine's logged data. 
 On a Unix-like operating system this can be performed with the use of the \inlinecode{Bash}{last} command. 
 One of the benefits of computer-triggered collection is that it is much less susceptible to timing errors 
 as opposed to that of a 'human polling' based approach. \\ I included the source code necessary to collect 
-the data in Appendix IV.C. All source code written for this part of the project is included in the appendix.
+the data in Appendix IV.C. The process is largely computational. After the raw data was collected with the
+\inlinecode{Bash}{last} command, the data was parsed through a preprocessing script written to convert the 
+timestamps in HH:MM:SS format to that of total seconds. Then, each event was subtracted from the next, yielding 
+interlogin times. The negative sign is discarded as only the magnitude is significant.
+As a side note, all source code written for this project are included in the appendix.
 
 \newpage
 
@@ -131,8 +138,8 @@ the data in Appendix IV.C. All source code written for this part of the project 
 \section*{Descriptive Analysis}
 \addcontentsline{toc}{section}{Descriptive Analysis}
 
-This section details the results of analysis performed on both datasets one and two.
-To analyze the data, python scripts were written to perform the calculations and output the desired
+This section details the results of analysis performed on both datasets One and Two.
+To analyze the data, python scripts were written to perform the requested calculations and output the desired
 plots for each dataset. The scripts are included as part of the Code section of Appendix IV.A.
 
 \subsection*{Set One}
@@ -145,17 +152,17 @@ plots for each dataset. The scripts are included as part of the Code section of 
 \end{wrapfigure}
 
 The first step in analysis for Set One was calculating the mean $\bar{X_1}$, which is  $0.98349$ $k\Omega$,
-between minimum value $0.97987 k\Omega$ and maximum value $0.98827 k\Omega$. The next step was calculating
+between a minimum value of $0.97987 k\Omega$ and a maximum value of $0.98827 k\Omega$. The next step was calculating
 the standard deviation, $\sigma_1$. This was done using \inlinecode{Python}{numpy} as opposed
 to doing it by hand with $\sigma_1 = \sqrt{\frac{1}{N-1} \sum_{i=1}^N (X_i - \bar{X_1})^2}$.
-The result for $\sigma_1$ was $0.001739$, which would indicate that spread from the mean is fairly low,
+The result for $\sigma_1$ was $0.001739$, which would indicate that the spread from the mean is fairly low,
 considering the significance of the value.
 The last calculation necessary for box-and-whisker plot was the quartiles,
 in which $Q1 = 0.98257 k\Omega, Q2 = 0.98659 k\Omega, Q3 = 0.98467 k\Omega$.
 
 
 The box-and-whisker plot is a helpful method of visualizing spread within a dataset.
-The vertical line segments ends on either side of the box represent the minimum and maximum
+The vertical line segments end on either side of the box represent the minimum and maximum
 values within the sample space, while the dot to the right represents outliers within the data.
 The box itself is useful for showing the quartiles (first being the left edge of the box, with
 third being the right).
@@ -174,14 +181,13 @@ hold an average lower than the median resistance. (x-axis is resistance in k$\Om
 The frequency table (Appendix III.A) was created first by determining a bin size. The range of the data was
 divided into 10 equal parts. Each bin would contain the tally of the values within
 a particular slice. For the resistor values, which is a continuous random variable that we
-suspect to be normally distributed- it is promising to see that the tallies peak towards the center of the table
-where the center-most values are located. The right-most extreme values do appear to decrease quite significantly while
-the lower end appears to contain more tallies than we'd expect for a proper normal distribution.
+suspect to be normally distributed, it is promising to see that the tallies peak where the center-most values are located. 
+The right-most extreme values do appear to decrease quite significantly, while
+the lower end appears to contain more tallies than we would expect for a proper normal distribution.
 
-The histogram represents the distribution of the resistive values across 10 bins.
-Where the y-axis is the number of values tallied within the slice, and x-axis is the measured
-resistance in units of k$\Omega$.
-Based on the histogram and previous data analysis. The sample of resistors do not follow a
+The histogram represents the distribution of the resistive values across 10 bins, where the y-axis 
+is the number of values tallied within the slice, and x-axis is the measured resistance in units of k$\Omega$.
+Based on the histogram and previous data analysis, the sample of resistors do not follow a
 normal distribution due to a lack of symmetry.
 
 
@@ -189,10 +195,10 @@ normal distribution due to a lack of symmetry.
 \subsection*{Set Two}
 \addcontentsline{toc}{subsection}{Set Two}
 
-The first step in analysis for Set Two was calculating the mean $\bar{X_2}$, which is  $8445.05$ seconds (s),
-between minimum value $1.0$s (restricted by measurement resolution) and maximum value $83749$s. The next step was calculating
-the standard deviation, $\sigma_2$, which was $15392.12$s. This indicates that spread from the mean is high.
-The last calculation necessary for box-and-whisker plot was the quartiles,
+The first step in analysis for Set Two was calculating the mean $\bar{X_2}$, which is $8445.05$ seconds (s),
+between a minimum value of $1.0$s (restricted by measurement resolution) and a maximum value of $83749$s. 
+The next step was calculating the standard deviation, $\sigma_2$, which was $15392.12$s. 
+This indicates that spread from the mean is high. The last calculation necessary for box-and-whisker plot was the quartiles,
 in which $Q1 = 251.75s, Q2 = 1865.0s, Q3 = 8052.25s$.
 
 \begin{wrapfigure}{r}{0.50\textwidth}
@@ -202,7 +208,7 @@ in which $Q1 = 251.75s, Q2 = 1865.0s, Q3 = 8052.25s$.
 \end{wrapfigure}
 
 In this set, the data appears to be heavily right skewed, with the majority of the values located on the lower
-end of the scale (in seconds), with a few large outliers to the right. This foreshadows an interesting frequency
+end of the scale (in seconds) and a few large outliers to the right. This foreshadows an interesting frequency
 distribution and histogram. Since this interval data is extracted from timestamps, we suspect the data to follow an
 exponential distribution. It is based on a continuous random variable (through the time stamp), but the values are
 discretized due to the limits of logging precision.
@@ -213,20 +219,19 @@ discretized due to the limits of logging precision.
     \caption{Set Two: Histogram}
 \end{wrapfigure}
 
-Like for Set One, the frequency table (Appendix III.B) was created first by determining a bin size. The range of the data was
-divided into 10 equal parts as well. Each bin would contain the tally of the values within
-a particular slice.
-When tabled, the values for the login intervals show that the vast majority
+Similar to Set One, the frequency table (Appendix III.B) was created first by determining a bin size. The range of the data was
+divided into 10 equal parts as well. Each bin contained the tally of the values within a particular slice.
+When tabled, the values for the login intervals showed that the vast majority
 of tallies were entered into the first slice, and a significant decrease in each successive step. The second
-through last bin combined makes up less than a third of the tallies of the first bin.
+through the last bin combined makes up less than a third of the tallies of the first bin.
 
 
 The histogram to the right represents the distribution of the login interval values across 10 bins.
 Where the y-axis is the number of values tallied within the slice, and x-axis is time between successive logins
 in seconds.
-Based on the histogram and previous data analysis. I conclude that the data follows an exponential distribution, as
-interval increase there is an exponential decrease in the values recorded, there are some outliers to the extreme but
-I think with more samples the overall distribution would continue to show strong resemblance to that of the standard
+Based on the histogram and previous data analysis, I conclude that the data follows an exponential distribution. As
+interval increases there is an exponential decrease in the values recorded, with some outliers to the extreme but 
+with more samples the overall distribution would continue to show strong resemblance to that of the standard
 exponential distribution.
 
 
@@ -236,6 +241,9 @@ exponential distribution.
 
 \subsection*{I - Dataset: One}
 \addcontentsline{toc}{subsection}{I - Dataset: One}
+
+Measured resistance of each resistor in the batch of 100.
+
 
 \begin{tabular}{rrrrrrrrrr}
     \hline
@@ -257,6 +265,8 @@ exponential distribution.
 \subsection*{II - Dataset: Two}
 \addcontentsline{toc}{subsection}{II - Dataset: Two}
 % insert table of login time values
+
+The interlogin time for users on the compute cluster, in seconds. 120 interlogin times recorded.
 
 \begin{tabular}{rrrrrrrrrrrr}
     \hline
@@ -607,7 +617,7 @@ cat last_batch_$1 | awk '{ print $7 }' > stripped_batch_$1.txt
 \section*{References}
 \addcontentsline{toc}{section}{References}
 
-Walpole, R.E., 2016. \textit{Probability and Statistics for Engineers and Scientists} Prentice Hall.
+Walpole, R.E., 2016. \textit{Probability and Statistics for Engineers and Scientists}. Prentice Hall.
 \newline
 \newline
 
