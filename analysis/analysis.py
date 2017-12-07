@@ -17,7 +17,7 @@ EXPECT_NORMAL = True
 
 if len(sys.argv) > 1:
     DATA_FILE = sys.argv[1]
-    EXPECT_NORMAL = False
+    #EXPECT_NORMAL = False
 
 OUTPUT_FILE = "results/" + DATA_FILE.split('/')[-1].split('vals')[0]
 
@@ -47,7 +47,15 @@ def main():
     print("Quartiles: ", *sample_quarts, sep=', ')
 
     #generateTable(sample_vals)
-
+    plt.style.use('ggplot')
+    plt.rcParams['text.latex.preamble']=[r"\usepackage{lmodern}"]
+    #Options
+    params = {'text.usetex' : True,
+          'font.size' : 11,
+          'font.family' : 'lmodern',
+          'text.latex.unicode': True,
+          }
+    plt.rcParams.update(params)  
     # Construct box-and-whisker plot, a.k.a. boxplot
     fig = plt.figure()
     ax = plt.subplot(111)
@@ -108,6 +116,9 @@ def main():
     print(pt2table)
 
     generateTable(pt2table)
+    
+
+    print(1 - expon.cdf(33500.2, sample_mean, sample_std))
 
 def chi_sqr(o, e):
     return ((o - e)**2)/e
